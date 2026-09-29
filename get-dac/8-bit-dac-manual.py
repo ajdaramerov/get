@@ -13,13 +13,11 @@ def voltage_to_number(voltage):
         return 0
     return int(voltage / dynamic_range * 250)
 
-def dec2bin(value):
-    return [int(element) for element in bin(value)[2:].zfill(8)]
-
 def number_to_dac(number):
-    s = dec2bin(number)
+    bits = [int(element) for element in bin(number)[2:].zfill(8)]
+    print(f"Число на вход ЦАП: {number}, биты: {bits}")
     for i in range(8):
-        gpio.output(dac_bits[i], s[i])
+        gpio.output(dac_bits[i], bits[i])
 
 
 try:
