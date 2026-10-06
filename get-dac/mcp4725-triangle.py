@@ -1,26 +1,23 @@
-import pwm_dac as pd
-import signal_generator as sg 
 import time
+import mcp4725_driver as mcp
+import signal_generator as sg
 
 amplitude = 3.2
 signal_frequency = 10
 sampling_frequency = 1000
 
 try:
-    gpio_pin = 12
-    dac = pd.PWM_DAC(gpio_pin, pwm_frequency=5000, dynamic_range=3.3)
-
+    mcp = mcp.mcp4725(dynamic_range=5.0)
     t = time.time()
 
     while True:
         current_time = time.time() - t
-        normalized_value = sg.get_sin_wave_amplitude(signal_frequency, current_time)
+        normalized_value = sg.get_triangle_wave_amplitude(signal_frequency, current_time)
         voltage = normalized_value*amplitude
-        dac.set_voltage(voltage)
+        mcp.set_voltage(voltage, )
         sg.wait_for_sampling_period(sampling_frequency)
-
 
 except KeyboardInterrupt:
     print("\nГенерация остановлена пользователем.")
 finally:
-    dac.deinit()
+    mcp.deinit()

@@ -14,7 +14,7 @@ try:
 
     while True:
         current_time = time.time() - t
-        normalized_value = sg.get_sin_wave_amplitude(signal_frequency, current_time)
+        normalized_value = sg.get_triangle_wave_amplitude(signal_frequency, current_time)
         voltage = normalized_value*amplitude
         dac.set_voltage(voltage)
         sg.wait_for_sampling_period(sampling_frequency)
