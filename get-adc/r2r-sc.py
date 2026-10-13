@@ -10,9 +10,9 @@ duration = 10.0
 
 try:
     t_start = time.time()
-    while (time.time() < duration-t_start):
-        voltage_values.add(adc.get_sc_voltage())
-        time_values.add(time.time()-t_start)
+    while (time.time() - t_start < duration-t_start):
+        voltage_values.append(adc.get_sc_voltage())
+        time_values.append(time.time()-t_start)
     adc_plot.plot_voltage_vs_time(time_values, voltage_values, 3.3)
 finally:
     adc.deinit()
