@@ -5,14 +5,14 @@ class MCP3021:
     def __init__(self, dynamic_range, verbose = False):
         self.bus = smbus.SMBus(1)
         self.dynamic_range = dynamic_range
-        self.adress = 0x4D
+        self.address = 0x4D
         self.verbose = verbose
 
     def deinit(self):
         self.bus.close()
 
     def get_number(self):
-        data = self.bus.read_word_data(self.adress, 0)
+        data = self.bus.read_word_data(self.address, 0)
         lower_data_byte = data >> 8
         upper_data_byte = data & 0xFF
         number = (upper_data_byte << 6) | (lower_data_byte >> 2)
@@ -22,10 +22,7 @@ class MCP3021:
     
     def get_voltage(self):
         number = self.get_number()
-        voltage = number / 1023 * self.dynamic_range
-        if self.verbose:
-            print(f"Число {number}, нарпяжение: {voltage:.3f} В")
-        return voltage
+        return number / 1023 * self.dynamic_range
 
 if __name__ == "__main__":
     try:
@@ -33,5 +30,7 @@ if __name__ == "__main__":
         while True:
                 mcp.get_voltage()
                 time.sleep(1)
+    except KeyboardInterrupt:
+        print("\nОстановлено пользователем")
     finally:
         mcp.deinit()
