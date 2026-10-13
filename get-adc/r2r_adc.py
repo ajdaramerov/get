@@ -44,9 +44,7 @@ if __name__ == "__main__":
     try:
         adc = R2R_ADC(3.3, verbose=True)
         while True:
-            try:
                 adc.get_sc_voltage()
                 time.sleep(0.1)
-
     finally:
         adc.deinit()
