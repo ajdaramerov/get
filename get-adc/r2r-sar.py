@@ -13,7 +13,7 @@ try:
     while (time.time() - t_start < duration):
         voltage_values.append(adc.get_sar_voltage())
         time_values.append(time.time()-t_start)
-    adc_plot.plot_voltage_vs_time(time_values, voltage_values, 4, filename="sc-plot.png")
-    adc_plot.plot_sampling_period_hist(time_values, filename="sc-hist.png")
+    adc_plot.plot_voltage_vs_time(time_values, voltage_values, 4, filename="sar-plot.png")
+    adc_plot.plot_sampling_period_hist(time_values, filename="sar-hist.png")
 finally:
     adc.deinit()

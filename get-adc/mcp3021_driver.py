@@ -26,9 +26,10 @@ class MCP3021:
 
 if __name__ == "__main__":
     try:
-        mcp = MCP3021(5.0, verbose=True)
+        mcp = MCP3021(5.0, verbose = True)
         while True:
-                mcp.get_voltage()
+                voltage = mcp.get_voltage()
+                print(f"Напряжение: {voltage:.2f} В")
                 time.sleep(1)
     except KeyboardInterrupt:
         print("\nОстановлено пользователем")
