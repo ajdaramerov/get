@@ -39,12 +39,32 @@ class R2R_ADC:
             print(f"Число {number}, нарпяжение: {voltage:.3f} В")
         return voltage
 
+    def successive_approximation_adc(self):
+        number = 0
 
+        for bit in range(len(self.bits_gpio) -1, -1, -1):
+            number |= 1 << bit
+            self.number_to_dac(number)
+            time.sleep(self.compare_time)
+
+            if gpio.input(self.comp_gpio) == 1:
+                number &= ~(1 << bit)
+
+        return number
+
+    def get_sar_voltage(self):
+        number = self.successive_approximation_adc()
+        voltage = number / (2**len(self.bits_gpio)-1) * self.dynamic_range
+        if self.verbose:
+            print(f"Число {number}, нарпяжение: {voltage:.3f} В")
+        return voltage
+
+        
 if __name__ == "__main__":
     try:
         adc = R2R_ADC(3.3, verbose=True)
         while True:
-                adc.get_sc_voltage()
+                adc.get_sar_voltage()
                 time.sleep(0.1)
     finally:
         adc.deinit()
